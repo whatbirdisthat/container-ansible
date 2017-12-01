@@ -1,5 +1,7 @@
 item = ansible
 image = wbit/image-$(item)
+baseimage = base-$(item)
+basedef = ${PWD}/imagedef/$(baseimage)
 container = container-$(item)
 version = 0.1
 
@@ -7,15 +9,19 @@ clean:
 	rm -f "/usr/local/bin/$(item)"
 	if [ "$(image)" == "$$(docker images $(image) --format {{.Repository}})" ] ; then docker rmi $(image) ; fi
 
-install: create-command
-	docker build -t $(image) .
+
+build-base-image:
+	if [ "$(baseimage)" != "$$(docker images $(baseimage) --format {{.Repository}})" ] ; then cd $(basedef) && docker build --rm --squash -t $(baseimage) . ; fi
+
+install: build-base-image create-command
+	cd ${PWD}/imagedef/$(item) && docker build -t $(image) --build-arg SOE=$(baseimage) .
 
 define RUN_COMMAND
 
 #!/bin/bash
 docker run -it --rm         \
 	-v `pwd`:`pwd` -w `pwd`     \
-	-h $(image).local  \
+	-h $(item).local  \
 	$(image) "$$@"
 
 endef
