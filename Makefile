@@ -22,8 +22,8 @@ define RUN_COMMAND
 
 #!/bin/bash
 docker run -it --rm         \
-	-v `pwd`:`pwd` -w `pwd`     \
-	-h $(item).local  \
+	-v `pwd`:`pwd` -w `pwd`   \
+	-h $(item).local          \
 	$(image) "$$@"
 
 endef
