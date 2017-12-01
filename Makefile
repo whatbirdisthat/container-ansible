@@ -1,11 +1,11 @@
 item = ansible
-image = image-$(item)
+image = wbit/image-$(item)
 container = container-$(item)
 version = 0.1
 
 clean:
-	docker rmi $(image)
 	rm -f "/usr/local/bin/$(item)"
+	if [ "$(image)" == "$$(docker images $(image) --format {{.Repository}})" ] ; then docker rmi $(image) ; fi
 
 install: create-command
 	docker build -t $(image) .
