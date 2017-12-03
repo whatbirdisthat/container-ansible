@@ -5,6 +5,11 @@ basedef = ${PWD}/imagedef/$(baseimage)
 container = container-$(item)
 version = 0.1
 
+force-shutdown:
+	docker ps -a | grep wbit/image-ansible | awk '{ print $1 }' | xargs -n1 docker kill
+
+rebuild: force-shutdown clean clean-base-image install
+
 clean:
 	@rm -f "/usr/local/bin/$(item)"
 	@if [ "$(image)" == "$$(docker images $(image) --format {{.Repository}})" ] ; then docker rmi $(image) ; else echo "Image '$(image)' not found. No need to clean." ; fi
@@ -21,9 +26,9 @@ install: build-base-image create-command
 define RUN_COMMAND
 
 #!/bin/bash
-docker run -it --rm         \
-	-v `pwd`:`pwd` -w `pwd`   \
-	-h $(item).local          \
+docker run -it --rm           \
+	-v `pwd`:`pwd` -w `pwd`     \
+	-h $(item).local   \
 	$(image) "$$@"
 
 endef
