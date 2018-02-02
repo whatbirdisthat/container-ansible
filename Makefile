@@ -28,7 +28,9 @@ define RUN_COMMAND
 #!/bin/bash
 docker run -it --rm           \
 	-v `pwd`:`pwd` -w `pwd`     \
+	-v ~/.ssh/id_rsa:/home/ansible/.ssh/id_rsa \
 	-h $(item).local   \
+	--env MACUSER=`whoami` \
 	$(image) "$$@"
 
 endef
