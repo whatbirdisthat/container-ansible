@@ -6,7 +6,7 @@ container = container-$(item)
 version = 0.1
 
 force-shutdown:
-	docker ps -a | grep wbit/image-ansible | awk '{ print $1 }' | xargs -n1 docker kill
+	docker ps -a | grep wbit/image-ansible | awk '{ print $$1 }' | xargs -n1 docker kill
 
 rebuild: force-shutdown clean clean-base-image install
 
