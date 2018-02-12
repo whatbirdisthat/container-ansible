@@ -7,4 +7,6 @@ WHITE="\[\e[1;37m\]"
 
 export PS1="${GREEN}$MACUSER${WHITE}@${MAGENTA}\h${NORMAL} \w${YELLOW} ∆${NORMAL} "
 
+ANSIBLE_VERSION=`ansible --version | grep 'ansible' | head -n1 | awk ' { print $2 } '`
+echo -e "\e[1;33mContainer-Ansible : ${ANSIBLE_VERSION}\e[0m"
 
