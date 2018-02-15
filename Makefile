@@ -9,8 +9,6 @@ version = 0.1
 force-shutdown:
 	docker ps -a | grep '$(image)' | awk '{ print $$1 }' | xargs -n1 docker kill
 
-rebuild: force-shutdown clean clean-base-image install
-
 uninstall: clean force-shutdown clean-base-image
 	@echo "Removed."
 
@@ -44,6 +42,9 @@ build-base-image:
 	}
 
 install: build-base-image
+	@:
+
+rebuild: clean build
 	@:
 
 build: install create-command
