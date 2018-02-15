@@ -3,7 +3,7 @@ FROM ${SOE}
 
 ARG ANSIBLE_USER=ansible
 RUN adduser -D -g '' ${ANSIBLE_USER}
-RUN addgroup ${ANSIBLE_USER} ansible
+
 RUN sed -i 's/export PS1/#export PS1/' /etc/profile
 
 WORKDIR /home/${ANSIBLE_USER}
