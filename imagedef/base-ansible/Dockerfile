@@ -1,12 +1,12 @@
 FROM alpine:latest
 
-RUN apk add --no-cache 													\
-	bash bash-completion 													\
-	musl-dev libffi-dev gcc make 									\
-	openssl-dev openssh-client sshpass 						\
+RUN apk add --no-cache 					\
+	bash bash-completion procps			\
+	musl-dev libffi-dev gcc make 		\
+	openssl-dev openssh-client sshpass 	\
 	python py2-pip python-dev
 
-RUN pip install cffi && pip install ansible
+RUN pip install cffi && pip install ansible ansible-lint
 
 RUN mkdir -p /etc/ssh
 WORKDIR /etc/ssh
