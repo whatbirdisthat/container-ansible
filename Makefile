@@ -68,6 +68,11 @@ create-command:
 	@echo "$$RUN_COMMAND" > "/usr/local/bin/${item}"
 	@chmod u+x "/usr/local/bin/${item}"
 
+
+check:
+	cd imagedef/base-ansible && docker run --rm -i hadolint/hadolint < Dockerfile
+	cd imagedef/ansible && docker run --rm -i hadolint/hadolint < Dockerfile
+
 define HELP_TEXT
 ANSIBLE CONTAINER
 
@@ -76,7 +81,6 @@ ansible and keeping the underlying system "clean".
 
 
 endef
-
 help:
 	@:
 $(info $(HELP_TEXT))
